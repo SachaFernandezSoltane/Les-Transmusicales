@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "192207357617",
+    "project_id": "transmusicales-tp-mmm",
+    "storage_bucket": "transmusicales-tp-mmm.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:192207357617:android:4d6cd34fec0f352f4c0490",
+        "android_client_info": {
+          "package_name": "com.example.tp_final"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVxiqRC-cdK5QWoyUAiMVXydyTCEzOPkc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
