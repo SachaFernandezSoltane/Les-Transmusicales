@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tp_final/bloc/auth_bloc.dart';
 import 'package:tp_final/bloc/auth_event.dart';
 import 'package:tp_final/bloc/auth_state.dart';
+import 'package:tp_final/presentation/myHomePage.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -124,12 +125,22 @@ class _LoginPageState extends State<LoginPage> {
 
                   BlocListener<AuthBloc, AuthState>(
                     listener: (context, state) {
-                      if (state is AuthFailure) {
-                        // Affiche une erreur
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(state.message)),
-                        );
-                      } 
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) => const MyHomePage(title: 'Home',)),
+                      );
+                      // if (state is AuthFailure) {
+                      //   // Affiche une erreur
+                      //   ScaffoldMessenger.of(context).showSnackBar(
+                      //     SnackBar(content: Text(state.message)),
+                      //   );
+                      // } 
+                      // if(state is AuthAuthenticated){
+                      //   Navigator.of(context).push(
+                      //   MaterialPageRoute(
+                      //       builder: (context) => const MyHomePage(title: 'Home',)),
+                      // );
+                      // }
                     },
                     child: BlocBuilder<AuthBloc, AuthState>(
                       builder: (context, state) {
