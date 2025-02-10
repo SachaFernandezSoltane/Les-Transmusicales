@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -27,7 +29,8 @@ class _MyHomePageState extends State<MyHomePage> {
   // Fonction pour basculer le thème
   void _toggleTheme() {
     setState(() {
-      _themeMode = (_themeMode == ThemeMode.light) ? ThemeMode.dark : ThemeMode.light;
+      _themeMode =
+          (_themeMode == ThemeMode.light) ? ThemeMode.dark : ThemeMode.light;
     });
   }
 
@@ -48,7 +51,8 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       home: MultiBlocProvider(
         providers: [
-          BlocProvider(create: (context) => ArtisteBloc()..add(ArtisteStarted())),
+          BlocProvider(
+              create: (context) => ArtisteBloc()..add(ArtisteStarted())),
           BlocProvider(create: (context) => TransmBloc()..add(TransmStarted())),
         ],
         child: Scaffold(
@@ -57,7 +61,8 @@ class _MyHomePageState extends State<MyHomePage> {
             title: Row(
               children: [
                 IconButton(
-                  icon: Icon(FontAwesomeIcons.arrowRightFromBracket, color: Colors.white, size: 25),
+                  icon: Icon(FontAwesomeIcons.arrowRightFromBracket,
+                      color: Colors.white, size: 25),
                   onPressed: () {},
                 ),
                 Spacer(),
@@ -69,7 +74,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 Spacer(),
                 IconButton(
-                  icon: Icon(FontAwesomeIcons.circleUser, color: Colors.white, size: 25),
+                  icon: Icon(FontAwesomeIcons.circleUser,
+                      color: Colors.white, size: 25),
                   onPressed: () => showCupertinoModalBottomSheet(
                     expand: true,
                     context: context,
@@ -120,7 +126,8 @@ class _MyHomePageState extends State<MyHomePage> {
                             items: artistes.map((artiste) {
                               return Container(
                                 width: 300.0,
-                                margin: const EdgeInsets.symmetric(horizontal: 20),
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 20),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(25),
                                   color: Colors.grey[300],
@@ -131,7 +138,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     fit: StackFit.expand,
                                     children: [
                                       Image.asset(
-                                        "assets/img/" + artiste + ".jpg",
+                                        "assets/img/$artiste.jpg",
                                         fit: BoxFit.cover,
                                       ),
                                       Align(
@@ -140,7 +147,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                           width: double.infinity,
                                           padding: const EdgeInsets.all(10),
                                           decoration: BoxDecoration(
-                                            color: Colors.black.withOpacity(0.5),
+                                            color:
+                                                Colors.black.withOpacity(0.5),
                                             borderRadius: BorderRadius.only(
                                               bottomLeft: Radius.circular(25),
                                               bottomRight: Radius.circular(25),
@@ -172,7 +180,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     return const Center(child: Text('Aucun artiste trouvé.'));
                   },
                 ),
-
                 BlocBuilder<TransmBloc, TransmState>(
                   builder: (context, state) {
                     if (state is TransmLoading) {
@@ -188,7 +195,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: const [
                                 Text(
-                                  'Artistes populaires',
+                                  'Liste transmusicales',
                                   style: TextStyle(
                                     fontSize: 24.0,
                                     fontWeight: FontWeight.bold,
@@ -201,7 +208,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           GridView.builder(
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
-                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
                               crossAxisSpacing: 10,
                               mainAxisSpacing: 10,
@@ -209,12 +217,15 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                             itemCount: artistes.length,
                             itemBuilder: (context, index) {
+                              final random = Random();
+                              final randomNumber = random.nextInt(8) + 1;
                               return Card(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15.0),
                                 ),
                                 child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
                                   children: [
                                     Expanded(
                                       child: ClipRRect(
@@ -223,7 +234,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                           topRight: Radius.circular(15.0),
                                         ),
                                         child: Image.asset(
-                                          "assets/img/" + artistes[index] + ".jpg",
+                                          "assets/img/transmusicales/"+ randomNumber.toString() +".jpg",
                                           fit: BoxFit.cover,
                                         ),
                                       ),
@@ -250,7 +261,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       return Center(child: Text('Erreur : ${state.message}'));
                     }
 
-                    return const Center(child: Text('Aucun artiste populaire trouvé.'));
+                    return const Center(
+                        child: Text('Aucun artiste populaire trouvé.'));
                   },
                 ),
               ],
