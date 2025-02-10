@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'auth_event.dart'; // Importer les événements
-import 'auth_state.dart'; // Importer les états
+import 'auth_event.dart'; 
+import 'auth_state.dart'; 
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {

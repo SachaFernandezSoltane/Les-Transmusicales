@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tp_final/bloc/auth_bloc.dart';
-import 'package:tp_final/bloc/auth_event.dart';
-import 'package:tp_final/bloc/auth_state.dart';
+import 'package:tp_final/bloc/auth/auth_bloc.dart';
+import 'package:tp_final/bloc/auth/auth_event.dart';
+import 'package:tp_final/bloc/auth/auth_state.dart';
 import 'package:tp_final/presentation/myHomePage.dart';
 
 class LoginPage extends StatefulWidget {

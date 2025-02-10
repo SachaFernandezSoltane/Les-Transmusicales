@@ -18,3 +18,21 @@ Future<List<String>> fetchArtistes() async {
     throw Exception('Erreur lors du chargement des artistes');
   }
 }
+
+Future<List<String>> fetchTransms() async {
+  final response = await http.get(Uri.parse('https://data.rennesmetropole.fr/api/explore/v2.1/catalog/datasets/artistes_concerts_transmusicales/records?select=edition_rencontres_trans_musicales&group_by=edition_rencontres_trans_musicales'));
+
+  if (response.statusCode == 200) {
+    final Map<String, dynamic> jsonData = json.decode(response.body);
+    late List<String> artistesList= [];
+    List<dynamic> results = jsonData['results'];
+
+    for (var element in results) {
+      artistesList.add(element['edition_rencontres_trans_musicales']);
+    }
+    
+    return artistesList;
+  } else {
+    throw Exception('Erreur lors du chargement des transmusicales');
+  }
+}
