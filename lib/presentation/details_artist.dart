@@ -1,19 +1,45 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MyApp());
+class DetailsPage extends StatefulWidget {
+  const DetailsPage({super.key});
+
+  @override
+  State<DetailsPage> createState() => _DetailsPageState();
 }
 
-class MyApp extends StatelessWidget {
+class _DetailsPageState extends State<DetailsPage> {
+  ThemeMode _themeMode = ThemeMode.light;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      themeMode: _themeMode,
+      theme: ThemeData(
+        brightness: Brightness.light,
+        primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: Colors.white,
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: Colors.black,
+      ),
       home: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.onPrimaryFixed,
+          title: Center(
+            child: Text(
+              'Salvatore',
+              style: TextStyle(
+                  color: Colors.white), // Utilisez TextStyle pour le style
+            ),
+          ), // Utilisez un widget Text pour le titre
+        ),
         body: CustomScrollView(
           slivers: <Widget>[
             SliverAppBar(
-              expandedHeight: MediaQuery.of(context).size.height * 0.8, // 80% de la hauteur de l'écran
+              expandedHeight: MediaQuery.of(context).size.height * 0.8,
               floating: false,
               pinned: true,
               flexibleSpace: Stack(
@@ -21,14 +47,14 @@ class MyApp extends StatelessWidget {
                 children: [
                   CarouselSlider(
                     options: CarouselOptions(
-                      aspectRatio: 0,
+                      aspectRatio:
+                          1.0, // Utilisez une valeur positive pour l'aspect ratio
                       enlargeCenterPage: true,
                       scrollDirection: Axis.horizontal,
                       autoPlay: true,
                     ),
                     items: [
-                      'assets/img/Salvatore.jpg', // Remplacez par votre chemin d'image
-                      // Ajoutez d'autres chemins d'images si nécessaire
+                      'assets/img/Salvatore.jpg',
                     ].map((path) {
                       return Builder(
                         builder: (BuildContext context) {
@@ -45,7 +71,7 @@ class MyApp extends StatelessWidget {
                     left: 0,
                     right: 0,
                     child: Container(
-                      color: Colors.black.withOpacity(0.5), // Semi-transparent
+                      color: Colors.black,
                       padding: EdgeInsets.symmetric(vertical: 16.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -56,7 +82,7 @@ class MyApp extends StatelessWidget {
                           ),
                           SizedBox(width: 8.0),
                           Text(
-                            'Overview',
+                            'Description',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 24,

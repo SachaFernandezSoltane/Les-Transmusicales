@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:tp_final/presentation/details_artist.dart';
 import 'package:tp_final/presentation/myHomePage.dart';
 
 Future<void> main() async {
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.black, // Couleur de fond pour le thème sombre
       ),
       themeMode: ThemeMode.system,
-      home: MyHomePage(title: 'Accueil'),
+      home: DetailsPage(),
     );
   }
 }
