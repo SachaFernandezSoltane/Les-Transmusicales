@@ -1,5 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 
 class DetailsPage extends StatefulWidget {
   const DetailsPage({super.key});
@@ -31,10 +33,9 @@ class _DetailsPageState extends State<DetailsPage> {
           title: Center(
             child: Text(
               'Salvatore',
-              style: TextStyle(
-                  color: Colors.white), // Utilisez TextStyle pour le style
+              style: TextStyle(color: Colors.white),
             ),
-          ), // Utilisez un widget Text pour le titre
+          ),
         ),
         body: CustomScrollView(
           slivers: <Widget>[
@@ -47,8 +48,7 @@ class _DetailsPageState extends State<DetailsPage> {
                 children: [
                   CarouselSlider(
                     options: CarouselOptions(
-                      aspectRatio:
-                          1.0, // Utilisez une valeur positive pour l'aspect ratio
+                      aspectRatio: 1.0,
                       enlargeCenterPage: true,
                       scrollDirection: Axis.horizontal,
                       autoPlay: true,
@@ -109,7 +109,7 @@ class _DetailsPageState extends State<DetailsPage> {
                     child: Row(
                       children: <Widget>[
                         Text(
-                          'Item #$index',
+                          'Musique n°#$index',
                           style: TextStyle(fontSize: 18),
                         ),
                         Spacer(),
@@ -121,7 +121,67 @@ class _DetailsPageState extends State<DetailsPage> {
                     ),
                   );
                 },
-                childCount: 20, // Nombre d'éléments dans la liste
+                childCount: 5,
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  height: 300,
+                  child: FlutterMap(
+                    options: MapOptions(
+                      initialCenter: LatLng(46.6033, 2.2110),
+                      initialZoom: 5,
+                    ),
+                    children: [
+                      TileLayer(
+                        // Bring your own tiles
+                        urlTemplate:
+                            'https://tile.openstreetmap.org/{z}/{x}/{y}.png', // For demonstration only
+                        userAgentPackageName:
+                            'com.example.app', // Add your app identifier
+                        // And many more recommended properties!
+                      ),
+                      MarkerLayer(
+                        markers: [
+                          Marker(
+                            point: LatLng(48.0444, -1.7539),
+                            width: 80,
+                            height: 80,
+                            child: Icon(
+                              Icons.location_on,
+                              color: Colors.red,
+                              size: 20.0,
+                            ),
+                            
+                          ),
+                          Marker(
+                            point: LatLng(48.1173, -1.6778),
+                            width: 80,
+                            height: 80,
+                            child: Icon(
+                              Icons.location_on,
+                              color: Colors.red,
+                              size: 20.0,
+                            ),
+                          )
+                        ],
+                      ),
+                      RichAttributionWidget(
+                        // Include a stylish prebuilt attribution widget that meets all requirments
+                        attributions: [
+                          TextSourceAttribution(
+                            'OpenStreetMap contributors',
+                            onTap: () => (Uri.parse(
+                                'https://openstreetmap.org/copyright')), // (external)
+                          ),
+                          // Also add images...
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ],
