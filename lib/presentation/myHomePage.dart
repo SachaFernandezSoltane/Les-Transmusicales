@@ -185,8 +185,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     if (state is TransmLoading) {
                       return const Center(child: CircularProgressIndicator());
                     } else if (state is TransmLoaded) {
-                      List<String> artistes = state.data;
-
+                      List<Map<String, dynamic>> transm = state.data;
+                      print(transm);
                       return Column(
                         children: [
                           Padding(
@@ -205,52 +205,43 @@ class _MyHomePageState extends State<MyHomePage> {
                               ],
                             ),
                           ),
-                          GridView.builder(
+                          ListView.builder(
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              crossAxisSpacing: 10,
-                              mainAxisSpacing: 10,
-                              childAspectRatio: 0.75,
-                            ),
-                            itemCount: artistes.length,
+                            itemCount: transm.length,
                             itemBuilder: (context, index) {
                               final random = Random();
                               final randomNumber = random.nextInt(8) + 1;
-                              return Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
+                              return ListTile(
+                                leading: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8),
+                                  child: Image.asset(
+                                    "assets/img/transmusicales/$randomNumber.jpg",
+                                    width: 60,
+                                    height: 60,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
-                                child: Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.stretch,
-                                  children: [
-                                    Expanded(
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(15.0),
-                                          topRight: Radius.circular(15.0),
-                                        ),
-                                        child: Image.asset(
-                                          "assets/img/transmusicales/"+ randomNumber.toString() +".jpg",
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        artistes[index],
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                  ],
+                                title: Text(
+                                  transm[index]['nom'],
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  transm[index]['date'], // Exemple, remplace par la vraie date si disponible
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                trailing: IconButton(
+                                  icon: Icon(Icons.favorite_border,
+                                      color: Colors.red),
+                                  onPressed: () {
+                                    // Action à définir pour ajouter en favori
+                                  },
                                 ),
                               );
                             },
@@ -261,8 +252,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       return Center(child: Text('Erreur : ${state.message}'));
                     }
 
-                    return const Center(
-                        child: Text('Aucun artiste populaire trouvé.'));
+                    return const Center(child: Text('Aucun artiste trouvé.'));
                   },
                 ),
               ],

@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.black, // Couleur de fond pour le thème sombre
       ),
       themeMode: ThemeMode.system,
-      home: DetailsPage(),
+      home: DetailsArtistePage(),
     );
   }
 }
