@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:latlong2/latlong.dart';
 
 class DetailsArtistePage extends StatefulWidget {
@@ -11,8 +12,16 @@ class DetailsArtistePage extends StatefulWidget {
 }
 
 class DetailsArtistePageState extends State<DetailsArtistePage> {
+  List<bool> _isFavorite = List.generate(5, (index) => false);
+
+  void toggleFavorite(int index) {
+    setState(() {
+      _isFavorite[index] = !_isFavorite[index];
+    });
+  }
+
   ThemeMode _themeMode = ThemeMode.light;
-  bool _showList = true; // Gère l'affichage de la liste ou de la carte
+  bool _showList = true;
 
   @override
   Widget build(BuildContext context) {
@@ -31,12 +40,26 @@ class DetailsArtistePageState extends State<DetailsArtistePage> {
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.primary,
-          title: const Center(
-            child: Text(
-              'Salvatore',
-              style: TextStyle(color: Colors.white),
-            ),
+          leading: IconButton(
+            // Bouton retour
+            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () => Navigator.pop(context),
           ),
+          title: Row(children: [
+            Spacer(),
+            Center(
+              child: Text(
+                'Salvatore',
+                style: TextStyle(color: Colors.white, fontSize: 28),
+              ),
+            ),
+            Spacer(),
+            IconButton(
+                icon: Icon(FontAwesomeIcons.circleUser,
+                    color: Colors.white, size: 25),
+                onPressed: () => Navigator.pop(context),
+              ),
+          ]),
         ),
         body: CustomScrollView(
           slivers: <Widget>[
@@ -44,7 +67,7 @@ class DetailsArtistePageState extends State<DetailsArtistePage> {
               expandedHeight: MediaQuery.of(context).size.height * 0.4,
               floating: false,
               pinned: true,
-              backgroundColor: Colors.black, // ✅ Fond noir ajouté
+              backgroundColor: Colors.black,
               flexibleSpace: Stack(
                 fit: StackFit.expand,
                 children: [
@@ -56,7 +79,7 @@ class DetailsArtistePageState extends State<DetailsArtistePage> {
                       autoPlay: true,
                     ),
                     items: [
-                      'assets/img/Salvatore.jpg',
+                      'assets/img/artistes/Salvatore.jpg',
                     ].map((path) {
                       return Builder(
                         builder: (BuildContext context) {
@@ -71,25 +94,22 @@ class DetailsArtistePageState extends State<DetailsArtistePage> {
                 ],
               ),
             ),
-
-            // 🔹 Ajout d'un espace après l'image
             SliverToBoxAdapter(
               child: Container(
-                color: Colors.black, // ✅ Fond noir ajouté
-                height: 20, // L'espace de 20px
+                color: Colors.black,
+                height: 20,
               ),
             ),
-
             SliverToBoxAdapter(
               child: Container(
-                color: Color.fromARGB(255, 0, 0, 0),
+                color: const Color.fromARGB(255, 0, 0, 0),
                 height: 20,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
                     Container(
                       height: 20,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Color.fromARGB(255, 255, 255, 255),
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(20.0),
@@ -101,7 +121,6 @@ class DetailsArtistePageState extends State<DetailsArtistePage> {
                 ),
               ),
             ),
-
             SliverToBoxAdapter(
               child: Container(
                 padding:
@@ -157,46 +176,42 @@ class DetailsArtistePageState extends State<DetailsArtistePage> {
           padding: const EdgeInsets.all(8.0),
           child: Row(
             children: <Widget>[
-              // Image carrée sur la gauche
               Container(
                 width: 60,
                 height: 60,
                 decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(
-                        'assets/img/Salvatore.jpg'), // Utilise ton image ici
+                  image: const DecorationImage(
+                    image: AssetImage('assets/img/artistes/Salvatore.jpg'),
                     fit: BoxFit.cover,
                   ),
-                  borderRadius: BorderRadius.circular(
-                      8.0), // Pour un rendu plus esthétique
+                  borderRadius: BorderRadius.circular(8.0),
                 ),
               ),
-              const SizedBox(width: 10), // Espace entre l'image et le texte
-              // Colonne pour le titre et la date
+              const SizedBox(width: 10),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      'Musique n°#$index', // Titre
+                      'Musique n°#$index',
                       style: const TextStyle(fontSize: 18, color: Colors.black),
                     ),
-                    const SizedBox(
-                        height: 5), // Espace entre le titre et la date
-                    Text(
-                      'Date: 2025-02-16', // Date fictive
-                      style: const TextStyle(fontSize: 14, color: Colors.grey),
+                    const SizedBox(height: 5),
+                    const Text(
+                      'Date: 2025-02-16',
+                      style: TextStyle(fontSize: 14, color: Colors.grey),
                     ),
                   ],
                 ),
               ),
-              // Icône de favoris à droite
               IconButton(
                 onPressed: () {
-                  // Logique pour ajouter aux favoris
+                  toggleFavorite(index);
                 },
-                icon: const Icon(Icons.favorite_border,
-                    color: Colors.grey), // Icône de favoris
+                icon: Icon(
+                  _isFavorite[index] ? Icons.favorite : Icons.favorite_border,
+                  color: _isFavorite[index] ? Colors.red : Colors.grey,
+                ),
               ),
             ],
           ),
