@@ -23,7 +23,7 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _passwordController = TextEditingController();
 
   bool isPressed = false;
-  bool isButtonEnabled = false; // Variable pour gérer l'état du bouton
+  bool isButtonEnabled = false; 
 
   void _togglePressedLogin() {
     setState(() {
@@ -31,7 +31,6 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
-  // Fonction pour vérifier si les deux champs sont remplis
   void _checkFields() {
     setState(() {
       isButtonEnabled = _usernameController.text.isNotEmpty &&
@@ -57,7 +56,6 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Logo ou titre
                 Text(
                   "Transmusicales",
                   style: TextStyle(
@@ -77,7 +75,6 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(height: 40),
 
-                // Champ Email
                 TextField(
                   controller: _usernameController,
                   onChanged: (_) => _checkFields(),
@@ -102,7 +99,6 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(height: 20),
 
-                // Champ Mot de passe
                 TextField(
                   controller: _passwordController,
                   obscureText: true,
@@ -205,7 +201,7 @@ class _LoginPageState extends State<LoginPage> {
                                           password: password));
                                     }
                                   }
-                                : null, // Désactive le bouton si isButtonEnabled est false
+                                : null,
                             style: ElevatedButton.styleFrom(
                               padding: EdgeInsets.symmetric(vertical: 15),
                               backgroundColor: Colors.purpleAccent,
@@ -229,7 +225,6 @@ class _LoginPageState extends State<LoginPage> {
 
                 SizedBox(height: 10),
 
-                // Lien "Mot de passe oublié"
                 TextButton(
                   onPressed: () {
                     // Action pour mot de passe oublié
@@ -241,7 +236,6 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(height: 20),
 
-                // Séparateur style égaliseur
                 Row(
                   children: [
                     Expanded(
@@ -264,7 +258,6 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(height: 20),
 
-                // Boutons de réseaux sociaux
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -295,7 +288,6 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(height: 20),
 
-                // Lien d'inscription
                 TextButton(
                   onPressed: () {
                     // Redirection vers la page d'inscription

@@ -5,6 +5,7 @@ ThemeData lightMode = ThemeData(
   colorScheme: ColorScheme.light(
     surface: Colors.white,
     secondary: Colors.black,
+    tertiary: Colors.white,
   )
 );
 
@@ -14,5 +15,6 @@ ThemeData darkMode = ThemeData(
   colorScheme: ColorScheme.dark(
     surface: Colors.black,
     secondary: const Color.fromARGB(255, 255, 255, 255),
+    tertiary: const Color.fromARGB(255, 65, 63, 63)
   )
 );
