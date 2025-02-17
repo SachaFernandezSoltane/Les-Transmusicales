@@ -1,30 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
+
+import '../theme/theme_provider.dart';
 
 class ModalFit extends StatefulWidget {
-  final VoidCallback toggleTheme;
 
-  const ModalFit({super.key, required this.toggleTheme});
+  const ModalFit({super.key});
 
   @override
   _ModalFitState createState() => _ModalFitState();
 }
 
 class _ModalFitState extends State<ModalFit> {
-  bool isDarkMode = false;
-
-  void _toggleDarkMode() {
-    setState(() {
-      isDarkMode = !isDarkMode;
-    });
-    widget.toggleTheme();
-    Navigator.of(context).pop();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: isDarkMode ? Colors.black : Colors.white,
+      color: Theme.of(context).colorScheme.surface,
       child: SafeArea(
         top: false,
         child: Column(
@@ -33,35 +25,38 @@ class _ModalFitState extends State<ModalFit> {
             ListTile(
               title: Text(
                 'Log out',
-                style: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
+                style: TextStyle(color: Theme.of(context).colorScheme.secondary),
               ),
               leading: Icon(
                 FontAwesomeIcons.arrowRightFromBracket,
-                color: isDarkMode ? Colors.white : Colors.black,
+                color: Theme.of(context).colorScheme.secondary,
               ),
               onTap: () => Navigator.of(context).pop(),
             ),
             ListTile(
               title: Text(
                 'Edit your profile',
-                style: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
+                style: TextStyle(color: Theme.of(context).colorScheme.secondary),
               ),
               leading: Icon(
                 FontAwesomeIcons.penToSquare,
-                color: isDarkMode ? Colors.white : Colors.black,
+                color: Theme.of(context).colorScheme.secondary,
               ),
               onTap: () => Navigator.of(context).pop(),
             ),
             ListTile(
               title: Text(
                 'Dark mode',
-                style: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
+                style: TextStyle(color: Theme.of(context).colorScheme.secondary),
               ),
               leading: Icon(
                 Icons.dark_mode,
-                color: isDarkMode ? Colors.white : Colors.black,
+                color: Theme.of(context).colorScheme.secondary,
               ),
-              onTap: _toggleDarkMode,
+              onTap: () {
+                Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
+                Navigator.of(context).pop();
+              },
             ),
           ],
         ),

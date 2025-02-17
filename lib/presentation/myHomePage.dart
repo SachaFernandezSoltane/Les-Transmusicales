@@ -25,16 +25,6 @@ class _MyHomePageState extends State<MyHomePage> {
   final ScrollController _scrollController = ScrollController();
   List<bool> _isFavorite = [];
 
-  ThemeMode _themeMode = ThemeMode.light;
-
-  // Fonction pour basculer le thème
-  void _toggleTheme() {
-    setState(() {
-      _themeMode =
-          (_themeMode == ThemeMode.light) ? ThemeMode.dark : ThemeMode.light;
-    });
-  }
-
   void toggleFavorite(int index) {
     setState(() {
       _isFavorite[index] = !_isFavorite[index];
@@ -44,23 +34,13 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      themeMode: _themeMode,
-      theme: ThemeData(
-        brightness: Brightness.light,
-        primarySwatch: Colors.blue,
-        scaffoldBackgroundColor: Colors.white,
-      ),
-      darkTheme: ThemeData(
-        brightness: Brightness.dark,
-        primarySwatch: Colors.blue,
-        scaffoldBackgroundColor: Colors.black,
-      ),
       home: Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.surface, 
         appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.onPrimaryFixed,
+          backgroundColor: Theme.of(context).colorScheme.surface,
           leading: IconButton(
             icon: Icon(FontAwesomeIcons.arrowRightFromBracket,
-                color: Colors.white, size: 25),
+                color: Theme.of(context).colorScheme.secondary, size: 25),
             onPressed: () => Navigator.pop(context),
           ),
           title: Row(
@@ -69,18 +49,20 @@ class _MyHomePageState extends State<MyHomePage> {
               Center(
                 child: Text(
                   widget.title,
-                  style: TextStyle(color: Colors.white, fontSize: 28),
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.secondary,
+                      fontSize: 28),
                 ),
               ),
               Spacer(),
               IconButton(
                 icon: Icon(FontAwesomeIcons.circleUser,
-                    color: Colors.white, size: 25),
+                    color: Theme.of(context).colorScheme.secondary, size: 25),
                 onPressed: () => showCupertinoModalBottomSheet(
                   expand: true,
                   context: context,
                   backgroundColor: Colors.transparent,
-                  builder: (context) => ModalFit(toggleTheme: _toggleTheme),
+                  builder: (context) => ModalFit(),
                 ),
               ),
             ],
@@ -240,14 +222,15 @@ class _MyHomePageState extends State<MyHomePage> {
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).colorScheme.secondary,
                                 ),
                               ),
                               subtitle: Text(
                                 transm[index][
-                                    'date'], // Exemple, remplace par la vraie date si disponible
+                                    'date'],
                                 style: TextStyle(
                                   fontSize: 14,
-                                  color: Colors.grey,
+                                  color: Theme.of(context).colorScheme.secondary,
                                 ),
                               ),
                               trailing: IconButton(
