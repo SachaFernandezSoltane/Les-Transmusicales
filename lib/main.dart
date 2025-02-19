@@ -9,8 +9,6 @@ import 'package:tp_final/bloc/api/transmusicales/transm_event.dart';
 import 'package:tp_final/bloc/auth/auth_bloc.dart';
 import 'package:tp_final/bloc/spotify_search/spotify_search_bloc.dart';
 import 'package:tp_final/bloc/spotify_search/spotify_search_event.dart';
-import 'package:tp_final/presentation/details_artist.dart';
-import 'package:tp_final/presentation/login.dart';
 import 'package:tp_final/presentation/myHomePage.dart';
 import 'package:tp_final/theme/theme_provider.dart';
 
@@ -47,9 +45,7 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             theme: Provider.of<ThemeProvider>(context).themeData,
-            home: DetailsArtistePage(
-              artistName: 'Salvatore',
-            ),
+            home: MyHomePage(title: 'Home')
           );
         },
       ),

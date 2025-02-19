@@ -67,9 +67,8 @@ Future<List<Map<String, dynamic>>> fetchTransms() async {
   }
 }
 
-// 🔹 Fonction pour récupérer un artiste via Spotify
 Future<String> fetchArtistSearchSpotify() async {
-  await getSpotifyAccessToken(); // Attendre la récupération du token
+  await getSpotifyAccessToken(); 
 
   final response = await http.get(
     Uri.parse(

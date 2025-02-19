@@ -4,20 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:tp_final/bloc/spotify_search/spotify_search_bloc.dart';
-import 'package:tp_final/bloc/spotify_search/spotify_search_state.dart';
 import 'package:tp_final/presentation/details_artist.dart';
 import '../bloc/api/artiste/artiste_bloc.dart';
 import '../bloc/api/artiste/artiste_state.dart';
 import '../bloc/api/transmusicales/transm_bloc.dart';
 import '../bloc/api/transmusicales/transm_state.dart';
 import '../bloc/spotify_search/spotify_search_event.dart';
-import '../modals/modal_fit.dart';
+import '../modals/modal_widget.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
-
   final String title;
 
   @override
@@ -26,6 +23,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final ScrollController _scrollController = ScrollController();
+  final ValueNotifier<double> scaleNotifier = ValueNotifier(1.0);
+
   List<bool> _isFavorite = [];
 
   void toggleFavorite(int index) {
@@ -57,16 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             Spacer(),
-            IconButton(
-              icon: Icon(FontAwesomeIcons.circleUser,
-                  color: Theme.of(context).colorScheme.secondary, size: 25),
-              onPressed: () => showCupertinoModalBottomSheet(
-                expand: true,
-                context: context,
-                backgroundColor: Theme.of(context).colorScheme.surface,
-                builder: (context) => ModalFit(),
-              ),
-            ),
+            ModalWidget(scaleNotifier: scaleNotifier),
           ],
         ),
       ),
@@ -122,7 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                                 artiste))),
                                         ],
                                         child: DetailsArtistePage(
-                                         artistName: artiste,
+                                          artistName: artiste,
                                         ),
                                       )));
                             },
