@@ -5,48 +5,42 @@ import 'package:tp_final/bloc/auth/auth_bloc.dart';
 import 'package:tp_final/bloc/auth/auth_event.dart';
 import 'package:tp_final/bloc/auth/auth_state.dart';
 import 'package:tp_final/bloc/sign_up/signup_bloc.dart';
+import 'package:tp_final/bloc/sign_up/signup_event.dart';
 import 'package:tp_final/bloc/sign_up/signup_state.dart';
-import 'package:tp_final/bloc/spotify_search/spotify_search_event.dart';
 import 'package:tp_final/presentation/homePage.dart';
-import 'package:tp_final/presentation/register.dart';
 
 import '../bloc/api/artiste/artiste_bloc.dart';
 import '../bloc/api/artiste/artiste_event.dart';
 import '../bloc/api/transmusicales/transm_bloc.dart';
 import '../bloc/api/transmusicales/transm_event.dart';
-import '../bloc/sign_up/signup_event.dart';
-import '../bloc/spotify_search/spotify_search_bloc.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _SignUpPageState createState() => _SignUpPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
-  bool isPressed = false;
   bool isButtonEnabled = false;
-
-  void _togglePressedLogin() {
-    setState(() {
-      isPressed = !isPressed;
-    });
-  }
 
   void _checkFields() {
     setState(() {
       isButtonEnabled = _usernameController.text.isNotEmpty &&
-          _passwordController.text.isNotEmpty;
+          _passwordController.text.isNotEmpty &&
+          _confirmPasswordController.text.isNotEmpty;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final authBloc = context.read<AuthBloc>();
+    final signUpBloc = context.read<SignupBloc>();
+
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -63,9 +57,9 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Transmusicales",
+                  "Rejoignez les Transmusicales",
                   style: TextStyle(
-                    fontSize: 40,
+                    fontSize: 32,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                     fontFamily: 'Grunge',
@@ -73,7 +67,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(height: 10),
                 Text(
-                  "Plongez dans l'expérience musicale",
+                  "Créez votre compte pour vivre l'expérience",
                   style: TextStyle(
                     fontSize: 16,
                     color: Colors.white70,
@@ -85,7 +79,7 @@ class _LoginPageState extends State<LoginPage> {
                   onChanged: (_) => _checkFields(),
                   decoration: InputDecoration(
                     filled: true,
-                    fillColor: Colors.white.withValues(alpha: 0.1),
+                    fillColor: Colors.white.withOpacity(0.1),
                     prefixIcon: Icon(Icons.email, color: Colors.white70),
                     hintText: "Votre email",
                     hintStyle: TextStyle(color: Colors.white70),
@@ -109,9 +103,9 @@ class _LoginPageState extends State<LoginPage> {
                   onChanged: (_) => _checkFields(),
                   decoration: InputDecoration(
                     filled: true,
-                    fillColor: Colors.white.withValues(alpha: 0.5),
+                    fillColor: Colors.white.withOpacity(0.1),
                     prefixIcon: Icon(Icons.lock, color: Colors.white70),
-                    hintText: "Votre mot de passe",
+                    hintText: "Mot de passe",
                     hintStyle: TextStyle(color: Colors.white70),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -127,38 +121,56 @@ class _LoginPageState extends State<LoginPage> {
                   style: TextStyle(color: Colors.white),
                 ),
                 SizedBox(height: 20),
-                BlocListener<AuthBloc, AuthState>(
+                TextField(
+                  controller: _confirmPasswordController,
+                  obscureText: true,
+                  onChanged: (_) => _checkFields(),
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white.withOpacity(0.1),
+                    prefixIcon: Icon(Icons.lock, color: Colors.white70),
+                    hintText: "Confirmez le mot de passe",
+                    hintStyle: TextStyle(color: Colors.white70),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide:
+                          BorderSide(color: Colors.purpleAccent, width: 2),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide:
+                          BorderSide(color: Colors.purpleAccent, width: 2),
+                    ),
+                  ),
+                  style: TextStyle(color: Colors.white),
+                ),
+                SizedBox(height: 20),
+                BlocListener<SignupBloc, SignupState>(
                   listener: (context, state) {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => MultiBlocProvider(
-                              providers: [
-                                BlocProvider(
-                                    create: (context) =>
-                                        ArtisteBloc()..add(ArtisteStarted())),
-                                BlocProvider(
-                                    create: (context) =>
-                                        TransmBloc()..add(TransmStarted())),
-                              ],
-                              child: HomePage(
-                                title: 'Home',
-                              ),
-                            )));
-                    // if (state is AuthFailure) {
-                    //   // Affiche une erreur
-                    //   ScaffoldMessenger.of(context).showSnackBar(
-                    //     SnackBar(content: Text(state.message)),
-                    //   );
-                    // }
-                    // if(state is AuthAuthenticated){
-                    //   Navigator.of(context).push(
-                    //   MaterialPageRoute(
-                    //       builder: (context) => const MyHomePage(title: 'Home',)),
-                    // );
-                    // }
+                    if (state is SignUpAdded) {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => MultiBlocProvider(
+                                providers: [
+                                  BlocProvider(
+                                      create: (context) =>
+                                          ArtisteBloc()..add(ArtisteStarted())),
+                                  BlocProvider(
+                                      create: (context) =>
+                                          TransmBloc()..add(TransmStarted())),
+                                ],
+                                child: HomePage(
+                                  title: 'Home',
+                                ),
+                              )));
+                    } else if (state is SignUpFailure) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(state.message)),
+                      );
+                    }
                   },
-                  child: BlocBuilder<AuthBloc, AuthState>(
+                  child: BlocBuilder<SignupBloc, SignupState>(
                     builder: (context, state) {
-                      if (state is AuthLoading) {
+                      if (state is SignUpLoading) {
                         return Column(
                           children: [
                             SizedBox(
@@ -172,8 +184,8 @@ class _LoginPageState extends State<LoginPage> {
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   elevation: 5,
-                                  shadowColor: Colors.purpleAccent
-                                      .withValues(alpha: 0.5),
+                                  shadowColor:
+                                      Colors.purpleAccent.withOpacity(0.5),
                                 ),
                                 child: CircularProgressIndicator(),
                               ),
@@ -186,20 +198,22 @@ class _LoginPageState extends State<LoginPage> {
                           child: ElevatedButton(
                             onPressed: isButtonEnabled
                                 ? () {
-                                    _togglePressedLogin();
                                     final username =
                                         _usernameController.text.trim();
                                     final password =
                                         _passwordController.text.trim();
-                                    if (username.isEmpty || password.isEmpty) {
+                                    final confirmPassword =
+                                        _confirmPasswordController.text.trim();
+                                    if (password != confirmPassword) {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         SnackBar(
-                                            content:
-                                                Text('One field is missing')),
+                                            content: Text(
+                                                'Les mots de passe ne correspondent pas')),
                                       );
                                     } else {
-                                      authBloc.add(AuthLoginRequested(
+                                      print('on arrive ici');
+                                      signUpBloc.add(SignUpRequested(
                                           username: username,
                                           password: password));
                                     }
@@ -212,11 +226,10 @@ class _LoginPageState extends State<LoginPage> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               elevation: 5,
-                              shadowColor:
-                                  Colors.purpleAccent.withValues(alpha: 0.5),
+                              shadowColor: Colors.purpleAccent.withOpacity(0.5),
                             ),
                             child: Text(
-                              "Entrez dans la fête",
+                              "Créer un compte",
                               style:
                                   TextStyle(fontSize: 18, color: Colors.white),
                             ),
@@ -225,37 +238,6 @@ class _LoginPageState extends State<LoginPage> {
                       }
                     },
                   ),
-                ),
-                SizedBox(height: 10),
-                TextButton(
-                  onPressed: () {
-                    // Action pour mot de passe oublié
-                  },
-                  child: Text(
-                    "Mot de passe oublié ?",
-                    style: TextStyle(color: Colors.white70),
-                  ),
-                ),
-                SizedBox(height: 20),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Divider(
-                        color: Colors.white70,
-                        thickness: 1,
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: Icon(Icons.graphic_eq, color: Colors.white70),
-                    ),
-                    Expanded(
-                      child: Divider(
-                        color: Colors.white70,
-                        thickness: 1,
-                      ),
-                    ),
-                  ],
                 ),
                 SizedBox(height: 20),
                 Row(
@@ -289,18 +271,10 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(height: 20),
                 TextButton(
                   onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => MultiBlocProvider(
-                              providers: [
-                                BlocProvider<SignupBloc>(
-                                  create: (context) => SignupBloc(),
-                                ),
-                              ],
-                              child: SignUpPage(),
-                            )));
+                    // Redirection vers la page de connexion
                   },
                   child: Text(
-                    "Pas encore de billet ? Rejoignez-nous",
+                    "Déjà un billet ? Connectez-vous",
                     style: TextStyle(color: Colors.white70),
                   ),
                 ),

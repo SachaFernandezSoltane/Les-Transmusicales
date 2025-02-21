@@ -3,9 +3,11 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:tp_final/presentation/widget/map_widget.dart';
 import 'package:tp_final/presentation/widget/music_widget.dart';
 import '../modals/modal_widget.dart';
+import 'widget/review_widget.dart';
 
 class DetailsArtistePage extends StatefulWidget {
-  const DetailsArtistePage({super.key, required this.artistName,required this.urlImage});
+  const DetailsArtistePage(
+      {super.key, required this.artistName, required this.urlImage});
 
   final String artistName;
   final String urlImage;
@@ -17,7 +19,7 @@ class DetailsArtistePage extends StatefulWidget {
 class DetailsArtistePageState extends State<DetailsArtistePage> {
   final List<bool> _isFavorite = List.generate(5, (index) => false);
   final ValueNotifier<double> scaleNotifier = ValueNotifier(1.0);
-  bool _showList = true;
+  int _selectedTab = 0; // 0 = Playlist, 1 = Maps, 2 = Review
 
   void toggleFavorite(int index) {
     setState(() {
@@ -120,12 +122,12 @@ class DetailsArtistePageState extends State<DetailsArtistePage> {
                         ElevatedButton(
                           onPressed: () {
                             setState(() {
-                              _showList = true;
+                              _selectedTab = 0;
                             });
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor:
-                                _showList ? Colors.blue : Colors.grey,
+                                _selectedTab == 0 ? Colors.blue : Colors.grey,
                             minimumSize: const Size(120, 50),
                           ),
                           child: const Text("Playlist",
@@ -135,15 +137,30 @@ class DetailsArtistePageState extends State<DetailsArtistePage> {
                         ElevatedButton(
                           onPressed: () {
                             setState(() {
-                              _showList = false;
+                              _selectedTab = 1;
                             });
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor:
-                                !_showList ? Colors.blue : Colors.grey,
+                                _selectedTab == 1 ? Colors.blue : Colors.grey,
                             minimumSize: const Size(120, 50),
                           ),
                           child: const Text("Maps",
+                              style:
+                                  TextStyle(fontSize: 18, color: Colors.white)),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              _selectedTab = 2;
+                            });
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                _selectedTab == 2 ? Colors.blue : Colors.grey,
+                            minimumSize: const Size(120, 50),
+                          ),
+                          child: const Text("Review",
                               style:
                                   TextStyle(fontSize: 18, color: Colors.white)),
                         ),
@@ -152,7 +169,11 @@ class DetailsArtistePageState extends State<DetailsArtistePage> {
                   ),
                 ),
                 SliverToBoxAdapter(
-                  child: _showList ? MusicWidget() : MapWidget(),
+                  child: _selectedTab == 0
+                      ? MusicWidget()
+                      : _selectedTab == 1
+                          ? MapWidget()
+                          : ReviewWidget(urlImage: widget.urlImage,), 
                 ),
               ],
             ),

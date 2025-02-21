@@ -4,28 +4,42 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:tp_final/bloc/auth/auth_bloc.dart';
+import 'package:tp_final/bloc/auth/auth_event.dart';
+import 'package:tp_final/bloc/auth/auth_state.dart';
 import 'package:tp_final/bloc/spotify_search/spotify_search_bloc.dart';
 import 'package:tp_final/presentation/details_artist.dart';
+import 'package:tp_final/presentation/login.dart';
 import '../bloc/api/artiste/artiste_bloc.dart';
 import '../bloc/api/artiste/artiste_state.dart';
 import '../bloc/api/transmusicales/transm_bloc.dart';
 import '../bloc/api/transmusicales/transm_state.dart';
+import '../bloc/maps/maps_bloc.dart';
+import '../bloc/maps/maps_event.dart';
 import '../bloc/spotify_search/spotify_search_event.dart';
 import '../modals/modal_widget.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key, required this.title});
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<HomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<HomePage> {
   final ScrollController _scrollController = ScrollController();
   final ValueNotifier<double> scaleNotifier = ValueNotifier(1.0);
 
   List<bool> _isFavorite = [];
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialiser _isFavorite avec une valeur par défaut
+    _isFavorite = List.generate(
+        10, (index) => false); // Ajustez la taille selon vos besoins
+  }
 
   void toggleFavorite(int index) {
     setState(() {
@@ -35,15 +49,18 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final authBloc = context.read<AuthBloc>();
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.surface,
         leading: IconButton(
-          icon: Icon(FontAwesomeIcons.arrowRightFromBracket,
-              color: Theme.of(context).colorScheme.secondary, size: 25),
-          onPressed: () => Navigator.pop(context),
-        ),
+            icon: Icon(FontAwesomeIcons.arrowRightFromBracket,
+                color: Theme.of(context).colorScheme.secondary, size: 25),
+            onPressed: () {
+              authBloc.add(AuthLogoutRequested());
+            }),
         title: Row(
           children: [
             Spacer(),
@@ -64,13 +81,25 @@ class _MyHomePageState extends State<MyHomePage> {
         controller: _scrollController,
         child: Column(
           children: [
+            BlocListener<AuthBloc, AuthState>(
+              listener: (context, state) {
+                if (state is AuthLogout) {
+                  Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                      builder: (context) => LoginPage(),
+                    ),
+                    (Route<dynamic> route) => false,
+                  );
+                }
+              },
+              child: Container(),
+            ),
             BlocBuilder<ArtisteBloc, ArtisteState>(
               builder: (context, state) {
                 if (state is ArtisteLoading) {
                   return const Center(child: CircularProgressIndicator());
                 } else if (state is ArtisteLoaded) {
                   List<Map<String, String>> artistes = state.data;
-                  print(artistes);
                   return Column(
                     children: [
                       Padding(
@@ -106,15 +135,18 @@ class _MyHomePageState extends State<MyHomePage> {
                                           BlocProvider(
                                               create: (context) =>
                                                   SpotifySearchBloc()
-                                                    ..add(
-                                                        SpotifySearchRequested(
-                                                            artistName:
-                                                                artiste["nomArtiste"]!))),
+                                                    ..add(SpotifySearchRequested(
+                                                        artistName: artiste[
+                                                            "nomArtiste"]!))),
+                                          BlocProvider(
+                                              create: (context) => MapsBloc()
+                                                ..add(MapsSearchPoints(
+                                                    artistName: artiste[
+                                                        "nomArtiste"]!))),
                                         ],
                                         child: DetailsArtistePage(
-                                          artistName: artiste['nomArtiste']!,
-                                          urlImage: artiste['urlImage']!
-                                        ),
+                                            artistName: artiste['nomArtiste']!,
+                                            urlImage: artiste['urlImage']!),
                                       )));
                             },
                             child: Container(

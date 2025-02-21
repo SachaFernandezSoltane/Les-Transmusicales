@@ -13,6 +13,8 @@ class AuthAuthenticated extends AuthState {
 
 class AuthUnauthenticated extends AuthState {}
 
+class AuthLogout extends AuthState {}
+
 class AuthFailure extends AuthState {
   final String message;
 
