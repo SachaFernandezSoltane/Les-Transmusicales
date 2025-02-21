@@ -67,16 +67,19 @@ Pour installer et exécuter l'application, suivez ces étapes :
 1. Clonez le dépôt :  
    ```sh
    git clone <repository-url>
-1. Clonez le dépôt :  
+1. Se positionner à la racine :  
    ```sh
    cd <project-directory>
-1. Clonez le dépôt :  
+1. Créer votre fichier .env et y mettre :
+   ```txt
+   CLIENT_ID=<votre_client_id> 
+   CLIENT_SECRET=<votre_client_secret>
+1. Exécuter la commande :  
    ```sh
    flutter pub get
-1. Clonez le dépôt :  
+1. Démarrer le projet :  
    ```sh
    flutter run
-
 ## Copyright  
 
 © 2025 Sacha Fernandez Soltane. Tous droits réservés.
