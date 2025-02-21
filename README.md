@@ -70,7 +70,7 @@ Pour installer et exécuter l'application, suivez ces étapes :
 1. Se positionner à la racine :  
    ```sh
    cd <project-directory>
-1. Créer votre fichier .env et y mettre :
+1. Créer votre fichier .env et y mettre vos clés api spotify :
    ```txt
    CLIENT_ID=<votre_client_id> 
    CLIENT_SECRET=<votre_client_secret>
