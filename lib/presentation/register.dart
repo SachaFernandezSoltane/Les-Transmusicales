@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tp_final/bloc/auth/auth_bloc.dart';
-import 'package:tp_final/bloc/auth/auth_event.dart';
-import 'package:tp_final/bloc/auth/auth_state.dart';
 import 'package:tp_final/bloc/sign_up/signup_bloc.dart';
 import 'package:tp_final/bloc/sign_up/signup_event.dart';
 import 'package:tp_final/bloc/sign_up/signup_state.dart';
 import 'package:tp_final/presentation/homePage.dart';
+import 'package:tp_final/presentation/login.dart';
 
 import '../bloc/api/artiste/artiste_bloc.dart';
 import '../bloc/api/artiste/artiste_event.dart';
@@ -56,13 +54,16 @@ class _SignUpPageState extends State<SignUpPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  "Rejoignez les Transmusicales",
-                  style: TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    fontFamily: 'Grunge',
+                Center(
+                  child: Text(
+                    "Rejoignez les Transmusicales",
+                    style: TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      fontFamily: 'Grunge',
+                    ),
+                    textAlign: TextAlign.center,
                   ),
                 ),
                 SizedBox(height: 10),
@@ -72,6 +73,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     fontSize: 16,
                     color: Colors.white70,
                   ),
+                  textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 40),
                 TextField(
@@ -212,7 +214,6 @@ class _SignUpPageState extends State<SignUpPage> {
                                                 'Les mots de passe ne correspondent pas')),
                                       );
                                     } else {
-                                      print('on arrive ici');
                                       signUpBloc.add(SignUpRequested(
                                           username: username,
                                           password: password));
@@ -271,7 +272,9 @@ class _SignUpPageState extends State<SignUpPage> {
                 SizedBox(height: 20),
                 TextButton(
                   onPressed: () {
-                    // Redirection vers la page de connexion
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => LoginPage()),
+                    );
                   },
                   child: Text(
                     "Déjà un billet ? Connectez-vous",

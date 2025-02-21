@@ -6,7 +6,7 @@ import '../modals/modal_fit.dart';
 class ModalWidget extends StatelessWidget {
   final ValueNotifier<double> scaleNotifier;
 
-  const ModalWidget({Key? key, required this.scaleNotifier}) : super(key: key);
+  const ModalWidget({super.key, required this.scaleNotifier});
 
   void _openModal(BuildContext context) {
     scaleNotifier.value = 0.9;

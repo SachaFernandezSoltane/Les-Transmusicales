@@ -42,19 +42,39 @@ class DetailsArtistePageState extends State<DetailsArtistePage> {
                     color: Theme.of(context).colorScheme.secondary),
                 onPressed: () => Navigator.pop(context),
               ),
-              title: Row(children: [
-                Spacer(),
-                Center(
-                  child: Text(
-                    widget.artistName,
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.secondary,
-                        fontSize: 28),
-                  ),
-                ),
-                Spacer(),
-                ModalWidget(scaleNotifier: scaleNotifier),
-              ]),
+              title: Row(
+                children: [
+                  if (widget.artistName.length > 20) ...[
+                    Expanded(
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.center,
+                        child: Text(
+                          widget.artistName,
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.secondary,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                    ),
+                    ModalWidget(scaleNotifier: scaleNotifier),
+                  ] else ...[
+                    Spacer(),
+                    Center(
+                      child: Text(
+                        widget.artistName,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.secondary,
+                          fontSize: 28,
+                        ),
+                      ),
+                    ),
+                    Spacer(),
+                    ModalWidget(scaleNotifier: scaleNotifier),
+                  ],
+                ],
+              ),
             ),
             body: CustomScrollView(
               slivers: <Widget>[
@@ -117,52 +137,59 @@ class DetailsArtistePageState extends State<DetailsArtistePage> {
                         vertical: 10, horizontal: 20),
                     color: Theme.of(context).colorScheme.tertiary,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              _selectedTab = 0;
-                            });
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                _selectedTab == 0 ? Colors.blue : Colors.grey,
-                            minimumSize: const Size(120, 50),
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () {
+                              setState(() {
+                                _selectedTab = 0;
+                              });
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  _selectedTab == 0 ? Colors.blue : Colors.grey,
+                              minimumSize: const Size(double.infinity, 50),
+                            ),
+                            child: const Text("Playlist",
+                                style: TextStyle(
+                                    fontSize: 15, color: Colors.white)),
                           ),
-                          child: const Text("Playlist",
-                              style:
-                                  TextStyle(fontSize: 18, color: Colors.white)),
                         ),
-                        ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              _selectedTab = 1;
-                            });
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                _selectedTab == 1 ? Colors.blue : Colors.grey,
-                            minimumSize: const Size(120, 50),
+                        SizedBox(width: 10), // Espacement entre les boutons
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () {
+                              setState(() {
+                                _selectedTab = 1;
+                              });
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  _selectedTab == 1 ? Colors.blue : Colors.grey,
+                              minimumSize: const Size(double.infinity, 50),
+                            ),
+                            child: const Text("Maps",
+                                style: TextStyle(
+                                    fontSize: 15, color: Colors.white)),
                           ),
-                          child: const Text("Maps",
-                              style:
-                                  TextStyle(fontSize: 18, color: Colors.white)),
                         ),
-                        ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              _selectedTab = 2;
-                            });
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                _selectedTab == 2 ? Colors.blue : Colors.grey,
-                            minimumSize: const Size(120, 50),
+                        SizedBox(width: 10), // Espacement entre les boutons
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () {
+                              setState(() {
+                                _selectedTab = 2;
+                              });
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  _selectedTab == 2 ? Colors.blue : Colors.grey,
+                              minimumSize: const Size(double.infinity, 50),
+                            ),
+                            child: const Text("Review",
+                                style: TextStyle(
+                                    fontSize: 15, color: Colors.white)),
                           ),
-                          child: const Text("Review",
-                              style:
-                                  TextStyle(fontSize: 18, color: Colors.white)),
                         ),
                       ],
                     ),
@@ -173,7 +200,9 @@ class DetailsArtistePageState extends State<DetailsArtistePage> {
                       ? MusicWidget()
                       : _selectedTab == 1
                           ? MapWidget()
-                          : ReviewWidget(urlImage: widget.urlImage,), 
+                          : ReviewWidget(
+                              urlImage: widget.urlImage,
+                            ),
                 ),
               ],
             ),

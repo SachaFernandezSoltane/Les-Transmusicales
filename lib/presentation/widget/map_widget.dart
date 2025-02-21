@@ -6,7 +6,7 @@ import 'package:tp_final/bloc/maps/maps_bloc.dart';
 import 'package:tp_final/bloc/maps/maps_state.dart';
 
 class MapWidget extends StatelessWidget {
-  const MapWidget({Key? key}) : super(key: key);
+  const MapWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,8 +14,6 @@ class MapWidget extends StatelessWidget {
       if (state is MapsLoading) {
         return const Center(child: CircularProgressIndicator());
       } else if (state is MapsSuccess) {
-        print(state.mapsPoints);
-
         List<Marker> markers = state.mapsPoints.entries.map((entry) {
           return Marker(
             width: 80.0,
@@ -32,13 +30,12 @@ class MapWidget extends StatelessWidget {
           );
         }).toList();
 
-        // Déterminer le centre de la carte
-        LatLng initialCenter = const LatLng(48.1173, -1.6778); // Coordonnées par défaut (Rennes)
-        double initialZoom = 10.0; // Zoom par défaut
+        LatLng initialCenter = const LatLng(48.1173, -1.6778);
+        double initialZoom = 10.0; 
         
         if (markers.length == 1) {
-          initialCenter = markers.first.point; // Centrer sur l'unique point
-          initialZoom = 15.0; // Zoom plus proche
+          initialCenter = markers.first.point; 
+          initialZoom = 15.0;
         }
 
         return SizedBox(

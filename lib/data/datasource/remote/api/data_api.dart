@@ -41,8 +41,7 @@ Future<List<Map<String, String>>> fetchArtistes() async {
 
       artistesList.add({
         'nomArtiste': element['artistes'] ?? 'Inconnu',
-        'urlImage': imgUrl ??
-            'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTjOSHQ-yEq0QFZb7BgthYtUVCJOXe5MbXYp5ixGpSMkf_tRRom0jpcOREwM6em4RR9HF2DVjKsQUuFKEBXipn4rw',
+        'urlImage': imgUrl,
       });
     }
 

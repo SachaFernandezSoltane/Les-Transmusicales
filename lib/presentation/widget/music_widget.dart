@@ -5,7 +5,7 @@ import '../../bloc/spotify_search/spotify_search_bloc.dart';
 import '../../bloc/spotify_search/spotify_search_state.dart';
 
 class MusicWidget extends StatelessWidget {
-  const MusicWidget({Key? key}) : super(key: key);
+  const MusicWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

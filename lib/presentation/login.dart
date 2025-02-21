@@ -5,8 +5,6 @@ import 'package:tp_final/bloc/auth/auth_bloc.dart';
 import 'package:tp_final/bloc/auth/auth_event.dart';
 import 'package:tp_final/bloc/auth/auth_state.dart';
 import 'package:tp_final/bloc/sign_up/signup_bloc.dart';
-import 'package:tp_final/bloc/sign_up/signup_state.dart';
-import 'package:tp_final/bloc/spotify_search/spotify_search_event.dart';
 import 'package:tp_final/presentation/homePage.dart';
 import 'package:tp_final/presentation/register.dart';
 
@@ -14,8 +12,6 @@ import '../bloc/api/artiste/artiste_bloc.dart';
 import '../bloc/api/artiste/artiste_event.dart';
 import '../bloc/api/transmusicales/transm_bloc.dart';
 import '../bloc/api/transmusicales/transm_event.dart';
-import '../bloc/sign_up/signup_event.dart';
-import '../bloc/spotify_search/spotify_search_bloc.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -129,32 +125,27 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(height: 20),
                 BlocListener<AuthBloc, AuthState>(
                   listener: (context, state) {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => MultiBlocProvider(
-                              providers: [
-                                BlocProvider(
-                                    create: (context) =>
-                                        ArtisteBloc()..add(ArtisteStarted())),
-                                BlocProvider(
-                                    create: (context) =>
-                                        TransmBloc()..add(TransmStarted())),
-                              ],
-                              child: HomePage(
-                                title: 'Home',
-                              ),
-                            )));
-                    // if (state is AuthFailure) {
-                    //   // Affiche une erreur
-                    //   ScaffoldMessenger.of(context).showSnackBar(
-                    //     SnackBar(content: Text(state.message)),
-                    //   );
-                    // }
-                    // if(state is AuthAuthenticated){
-                    //   Navigator.of(context).push(
-                    //   MaterialPageRoute(
-                    //       builder: (context) => const MyHomePage(title: 'Home',)),
-                    // );
-                    // }
+                    if (state is AuthFailure) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(state.message)),
+                      );
+                    }
+                    if (state is AuthAuthenticated) {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => MultiBlocProvider(
+                                providers: [
+                                  BlocProvider(
+                                      create: (context) =>
+                                          ArtisteBloc()..add(ArtisteStarted())),
+                                  BlocProvider(
+                                      create: (context) =>
+                                          TransmBloc()..add(TransmStarted())),
+                                ],
+                                child: HomePage(
+                                  title: 'Home',
+                                ),
+                              )));
+                    }
                   },
                   child: BlocBuilder<AuthBloc, AuthState>(
                     builder: (context, state) {

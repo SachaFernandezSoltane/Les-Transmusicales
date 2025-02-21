@@ -30,20 +30,30 @@ class HomePage extends StatefulWidget {
 class _MyHomePageState extends State<HomePage> {
   final ScrollController _scrollController = ScrollController();
   final ValueNotifier<double> scaleNotifier = ValueNotifier(1.0);
-
+  final TextEditingController _searchController = TextEditingController();
   List<bool> _isFavorite = [];
+  List<Map<String, String>> _filteredArtistes = [];
 
   @override
   void initState() {
     super.initState();
-    // Initialiser _isFavorite avec une valeur par défaut
     _isFavorite = List.generate(
-        10, (index) => false); // Ajustez la taille selon vos besoins
+        10, (index) => false);
   }
 
   void toggleFavorite(int index) {
     setState(() {
       _isFavorite[index] = !_isFavorite[index];
+    });
+  }
+
+  void _filterArtistes(String query, List<Map<String, String>> artistes) {
+    setState(() {
+      _filteredArtistes = artistes
+          .where((artiste) => artiste['nomArtiste']!
+              .toLowerCase()
+              .contains(query.toLowerCase()))
+          .toList();
     });
   }
 
@@ -94,12 +104,39 @@ class _MyHomePageState extends State<HomePage> {
               },
               child: Container(),
             ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: TextField(
+                controller: _searchController,
+                onChanged: (value) {
+                  final artisteBloc = context.read<ArtisteBloc>();
+                  final state = artisteBloc.state;
+                  if (state is ArtisteLoaded) {
+                    _filterArtistes(value, state.data);
+                  }
+                },
+                decoration: InputDecoration(
+                  labelText: 'Rechercher un artiste',
+                  prefixIcon: Icon(Icons.search),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+              ),
+            ),
             BlocBuilder<ArtisteBloc, ArtisteState>(
               builder: (context, state) {
                 if (state is ArtisteLoading) {
                   return const Center(child: CircularProgressIndicator());
                 } else if (state is ArtisteLoaded) {
-                  List<Map<String, String>> artistes = state.data;
+                  List<Map<String, String>> artistes =
+                      _searchController.text.isEmpty
+                          ? state.data
+                          : _filteredArtistes;
+                  if (artistes.isEmpty) {
+                    return const Center(child: Text('Aucun artiste trouvé.'));
+                  }
+
                   return Column(
                     children: [
                       Padding(

@@ -25,17 +25,6 @@ class _ModalFitState extends State<ModalFit> {
           children: <Widget>[
             ListTile(
               title: Text(
-                'Log out',
-                style: TextStyle(color: Theme.of(context).colorScheme.secondary),
-              ),
-              leading: Icon(
-                FontAwesomeIcons.arrowRightFromBracket,
-                color: Theme.of(context).colorScheme.secondary,
-              ),
-              onTap: () => Navigator.of(context).pop(),
-            ),
-            ListTile(
-              title: Text(
                 'Edit your profile',
                 style: TextStyle(color: Theme.of(context).colorScheme.secondary),
               ),
