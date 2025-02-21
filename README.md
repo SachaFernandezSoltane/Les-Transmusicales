@@ -1,8 +1,6 @@
 # Projet OpenData Transmusicales - Application Multi-plateforme
 
-![Image home project](<img src="https://github.com/SachaFernandezSoltane/les_transmusicales/blob/main/display_readme.png?raw=true" width="300" height="200">)
-
-<img src="https://github.com/SachaFernandezSoltane/les_transmusicales/blob/main/display_readme.png?raw=true" width="300" height="500">
+<img src="https://github.com/SachaFernandezSoltane/les_transmusicales/blob/main/assets/img/screenshot/display_readme.png?raw=true" width="300" height="500">
 
 ## Description
 
