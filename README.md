@@ -35,7 +35,8 @@ L'application suit les principes de la Clean Architecture pour une organisation 
 - **Mobile (Android/iOS)** : Flutter  
 - **Flutter bloc** : Intégration de bloc pour la structuration du code
 
-<img src="https://github.com/SachaFernandezSoltane/les_transmusicales/blob/main/assets/img/screenshot/bloc_tutorial.png?raw=true" width="420" height="200">
+<img src="https://github.com/SachaFernandezSoltane/les_transmusicales/blob/main/assets/img/screenshot/bloc_tutorial.png?raw=true" width="100%" height="200">
+
 - **Web** : ~~Flutter Web (pas disponible pour l'application)~~
 - **Backend** : Firebase pour l'authentification, API REST pour les données OpenData  
 
