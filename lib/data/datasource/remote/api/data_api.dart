@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 String token = "";
 String uri = "";
-const String clientId = "1b6335b0eb9f42188f3654496591957a";
-const String clientSecret = "d01698c8908d446fa5b1a74a6405e2ef";
+final String clientId = dotenv.env['CLIENT_ID'] ?? '';
+final String clientSecret = dotenv.env['CLIENT_SECRET'] ?? '';
 
 Future<void> getSpotifyAccessToken() async {
   final response = await http.post(

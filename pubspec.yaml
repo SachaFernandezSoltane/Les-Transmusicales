@@ -46,6 +46,7 @@ dependencies:
   provider: ^6.1.2
   latlong2: ^0.9.1
   flutter_rating_bar: ^4.0.1
+  flutter_dotenv: ^5.2.1
 
 
 dev_dependencies:
@@ -67,6 +68,7 @@ flutter:
   uses-material-design: true
 
   assets:
+    - .env
     - assets/img/artistes/
     - assets/img/transmusicales/
 
