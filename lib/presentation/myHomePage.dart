@@ -69,8 +69,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 if (state is ArtisteLoading) {
                   return const Center(child: CircularProgressIndicator());
                 } else if (state is ArtisteLoaded) {
-                  List<String> artistes = state.data;
-
+                  List<Map<String, String>> artistes = state.data;
+                  print(artistes);
                   return Column(
                     children: [
                       Padding(
@@ -109,10 +109,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                                     ..add(
                                                         SpotifySearchRequested(
                                                             artistName:
-                                                                artiste))),
+                                                                artiste["nomArtiste"]!))),
                                         ],
                                         child: DetailsArtistePage(
-                                          artistName: artiste,
+                                          artistName: artiste['nomArtiste']!,
+                                          urlImage: artiste['urlImage']!
                                         ),
                                       )));
                             },
@@ -129,8 +130,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                 child: Stack(
                                   fit: StackFit.expand,
                                   children: [
-                                    Image.asset(
-                                      "assets/img/artistes/$artiste.jpg",
+                                    Image.network(
+                                      artiste['urlImage']!,
                                       fit: BoxFit.cover,
                                     ),
                                     Align(
@@ -147,7 +148,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                           ),
                                         ),
                                         child: Text(
-                                          artiste,
+                                          artiste['nomArtiste']!,
                                           textAlign: TextAlign.center,
                                           style: const TextStyle(
                                             fontSize: 25,

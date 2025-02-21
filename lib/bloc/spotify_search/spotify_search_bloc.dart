@@ -9,7 +9,7 @@ class SpotifySearchBloc extends Bloc<SpotifySearchRequested, SpotifySearchState>
       emit(SpotifySearchLoading());
 
       try {
-        final artistSpotify = await fetchAlbumArtist();
+        final artistSpotify = await fetchAlbumArtist(event.artistName);
         emit(SpotifySearchSuccess(albumList: artistSpotify));
       } catch (e) {
         emit(SpotifySearchFailure(message: 'Error: $e'));

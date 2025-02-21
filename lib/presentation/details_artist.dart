@@ -5,9 +5,10 @@ import 'package:tp_final/presentation/widget/music_widget.dart';
 import '../modals/modal_widget.dart';
 
 class DetailsArtistePage extends StatefulWidget {
-  const DetailsArtistePage({super.key, required this.artistName});
+  const DetailsArtistePage({super.key, required this.artistName,required this.urlImage});
 
   final String artistName;
+  final String urlImage;
 
   @override
   State<DetailsArtistePage> createState() => DetailsArtistePageState();
@@ -72,11 +73,11 @@ class DetailsArtistePageState extends State<DetailsArtistePage> {
                           autoPlay: true,
                         ),
                         items: [
-                          'assets/img/artistes/' + widget.artistName + '.jpg',
+                          widget.urlImage,
                         ].map((path) {
                           return Builder(
                             builder: (BuildContext context) {
-                              return Image.asset(
+                              return Image.network(
                                 path,
                                 fit: BoxFit.cover,
                               );
